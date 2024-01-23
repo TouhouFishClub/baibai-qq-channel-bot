@@ -1,0 +1,13 @@
+.vscode
+.idea
+.DS_Store
+npm-debug.log
+node_modules/
+test/
+mock/
+dest/
+
+.secret.js
+.secret.json
+
+.servers.yaml
