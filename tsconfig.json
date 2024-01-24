@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "es2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "outDir": "./dest",
+    "strict": true,
+    "paths": {
+      "@baibai/*": ["src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "esModuleInterop": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "files": [
+    "./src/app.ts",
+    "types/onebot.d.ts"
+  ],
+  "ts-node": {
+    "files": true
+  }
+}

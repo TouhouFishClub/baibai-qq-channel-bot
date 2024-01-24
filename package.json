@@ -7,5 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "module-alias": "^2.2.3",
+    "qq-guild-bot": "^2.9.5",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/module-alias": "^2.0.4",
+    "@types/node": "^20.11.5",
+    "@types/ws": "^8.2.0"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@baibai": "src"
+  }
 }

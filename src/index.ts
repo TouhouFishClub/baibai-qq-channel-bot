@@ -1,0 +1,74 @@
+require('module-alias/register')
+import fs from 'fs-extra'
+import path from 'node:path'
+import { createOpenAPI, createWebsocket, AvailableIntentsEventsEnum } from 'qq-guild-bot';
+import PluginManager from "@baibai/core/PluginManager";
+
+const config = fs.readJsonSync(path.join(__dirname, '.secret.json'))
+
+const createBot = (options: any) => {
+// 创建 client
+  const client = createOpenAPI(options);
+
+// 创建 websocket 连接
+  const ws = createWebsocket(options);
+
+  const pm = new PluginManager().init()
+
+// 消息监听
+  ws.on('READY', (wsdata) => {
+    // console.log('[READY] 事件接收 :', wsdata);
+    console.log(`[READY][${wsdata.msg.user.username}]`)
+  });
+  ws.on('ERROR', (data) => {
+    console.log('[ERROR] 事件接收 :', data);
+  });
+  ws.on('GUILDS', (data) => {
+    console.log('[GUILDS] 事件接收 :', data);
+  });
+// ws.on('GUILD_MEMBERS', (data) => {
+//   console.log('[GUILD_MEMBERS] 事件接收 :', data);
+// });
+  ws.on('GUILD_MESSAGES', async (data: any) => {
+    // console.log('[GUILD_MESSAGES] 事件接收 :', JSON.stringify(data, null, 2));
+    console.log(`[GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]\n${data.msg.content}`)
+    const res = await pm.matchPlugins(data)
+    console.log(res)
+  });
+// ws.on('GUILD_MESSAGE_REACTIONS', (data) => {
+//   console.log('[GUILD_MESSAGE_REACTIONS] 事件接收 :', data);
+// });
+// ws.on('DIRECT_MESSAGE', (data) => {
+//   console.log('[DIRECT_MESSAGE] 事件接收 :', data);
+// });
+// ws.on('INTERACTION', (data) => {
+//   console.log('[INTERACTION] 事件接收 :', data);
+// });
+// ws.on('MESSAGE_AUDIT', (data) => {
+//   console.log('[MESSAGE_AUDIT] 事件接收 :', data);
+// });
+// ws.on('FORUMS_EVENT', (data) => {
+//   console.log('[FORUMS_EVENT] 事件接收 :', data);
+// });
+// ws.on('AUDIO_ACTION', (data) => {
+//   console.log('[AUDIO_ACTION] 事件接收 :', data);
+// });
+  ws.on('PUBLIC_GUILD_MESSAGES', async (data: any) => {
+    // console.log('[PUBLIC_GUILD_MESSAGES] 事件接收 :', JSON.stringify(data, null, 2));
+    console.log(`[PUBLIC_GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]\n${data.msg.content}`)
+    const res = await pm.matchPlugins(data)
+    console.log(res)
+  });
+}
+
+const options = {
+  appID: config.appID,
+  token: config.token,
+  intents: [
+    AvailableIntentsEventsEnum.GUILD_MESSAGES,
+    AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES,
+  ], // 事件订阅,用于开启可接收的消息类型
+  sandbox: true, // 沙箱支持，可选，默认false. v2.7.0+
+};
+
+createBot(options)
