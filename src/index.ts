@@ -19,6 +19,8 @@ const createBot = (options: any) => {
     if(res.filter(r => r.result).length === 0) {
       return
     }
+    console.log('==== plugin result ====')
+    console.log(res)
     for(let i = 0; i < res.length; i++) {
       const { plugin, content, rawMessage, result } = res[i]
       const { guild_id, channel_id } = rawMessage.msg
@@ -26,7 +28,7 @@ const createBot = (options: any) => {
         content: result
       } : result
       let { data } = await client.messageApi.postMessage(channel_id, sendMsg);
-      console.log(`==== send data ===\n${data}\n ==========`)
+      console.log(`==== send data ===\n${JSON.stringify(data, null, 2)}\n ==========`)
     }
   }
 
@@ -48,7 +50,6 @@ const createBot = (options: any) => {
     // console.log('[GUILD_MESSAGES] 事件接收 :', JSON.stringify(data, null, 2));
     console.log(`[GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]${data.msg.content}`)
     const res = await pm.matchPlugins(data, AvailableIntentsEventsEnum.GUILD_MESSAGES)
-    console.log(res)
     sendMsg(res)
   });
 // ws.on('GUILD_MESSAGE_REACTIONS', (data) => {
@@ -73,7 +74,6 @@ const createBot = (options: any) => {
     // console.log('[PUBLIC_GUILD_MESSAGES] 事件接收 :', JSON.stringify(data, null, 2));
     console.log(`[PUBLIC_GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]${data.msg.content}`)
     const res = await pm.matchPlugins(data, AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES)
-    console.log(res)
     sendMsg(res)
   });
 }
