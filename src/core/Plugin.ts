@@ -41,5 +41,5 @@ export default abstract class Plugin {
     })
   }
 
-  abstract entry(context: any) : any | Promise<any>
+  abstract entry(context: any, rawContent? : any) : any | Promise<any>
 }

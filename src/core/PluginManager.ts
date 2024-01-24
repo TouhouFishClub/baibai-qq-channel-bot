@@ -1,7 +1,14 @@
 import fs from "node:fs"
 import path from "node:path"
 import Plugin from '@baibai/core/Plugin'
+import { AvailableIntentsEventsEnum } from 'qq-guild-bot';
 
+export type PluginResult = {
+  plugin: Plugin,
+  content: string,
+  rawMessage: any,
+  result: any
+}
 
 export default class PluginManager {
   private plugins: Plugin[] = [];
@@ -29,13 +36,13 @@ export default class PluginManager {
     })
   }
 
-  async matchPlugins(rawMessage: any){
+  async matchPlugins(rawMessage: any, event: AvailableIntentsEventsEnum){
     let { content, guild_id, channel_id } = rawMessage.msg
-    switch(rawMessage.eventType) {
-      case 'AT_MESSAGE_CREATE':
-        content = content.split('/').slice(1).join('/')
+    switch(event) {
+      case AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES:
+        content = content.split('/').slice(1).join('/').trim()
         break
-      case 'MESSAGE_CREATE':
+      case AvailableIntentsEventsEnum.GUILD_MESSAGES:
         break
     }
 
@@ -46,7 +53,7 @@ export default class PluginManager {
         plugin,
         content,
         rawMessage,
-        result: plugin.entry(content)
+        result: plugin.entry(content, rawMessage)
       }
     }))
   }
