@@ -1,7 +1,7 @@
 require('module-alias/register')
 import fs from 'fs-extra'
 import path from 'node:path'
-import { createOpenAPI, createWebsocket, AvailableIntentsEventsEnum } from 'qq-guild-bot';
+import {createOpenAPI, createWebsocket, AvailableIntentsEventsEnum, MessageToCreate} from 'qq-guild-bot';
 import PluginManager, { PluginResult } from "@baibai/core/PluginManager";
 
 const config = fs.readJsonSync(path.join(__dirname, '.secret.json'))
@@ -22,9 +22,9 @@ const createBot = (options: any) => {
     for(let i = 0; i < res.length; i++) {
       const { plugin, content, rawMessage, result } = res[i]
       const { guild_id, channel_id } = rawMessage.msg
-      const sendMsg = {
+      const sendMsg: MessageToCreate = typeof result === 'string' ? {
         content: result
-      }
+      } : result
       let { data } = await client.messageApi.postMessage(channel_id, sendMsg);
       console.log(`==== send data ===\n${data}\n ==========`)
     }
@@ -46,7 +46,7 @@ const createBot = (options: any) => {
 // });
   ws.on('GUILD_MESSAGES', async (data: any) => {
     // console.log('[GUILD_MESSAGES] 事件接收 :', JSON.stringify(data, null, 2));
-    console.log(`[GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]\n${data.msg.content}`)
+    console.log(`[GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]${data.msg.content}`)
     const res = await pm.matchPlugins(data, AvailableIntentsEventsEnum.GUILD_MESSAGES)
     console.log(res)
     sendMsg(res)
@@ -71,7 +71,7 @@ const createBot = (options: any) => {
 // });
   ws.on('PUBLIC_GUILD_MESSAGES', async (data: any) => {
     // console.log('[PUBLIC_GUILD_MESSAGES] 事件接收 :', JSON.stringify(data, null, 2));
-    console.log(`[PUBLIC_GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]\n${data.msg.content}`)
+    console.log(`[PUBLIC_GUILD_MESSAGES][${data.msg.guild_id}][${data.msg.channel_id}][${data.msg.author.username}]${data.msg.content}`)
     const res = await pm.matchPlugins(data, AvailableIntentsEventsEnum.PUBLIC_GUILD_MESSAGES)
     console.log(res)
     sendMsg(res)

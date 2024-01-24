@@ -1,13 +1,13 @@
 import fs from "node:fs"
 import path from "node:path"
 import Plugin from '@baibai/core/Plugin'
-import { AvailableIntentsEventsEnum } from 'qq-guild-bot';
+import {AvailableIntentsEventsEnum, MessageToCreate} from 'qq-guild-bot';
 
 export type PluginResult = {
   plugin: Plugin,
   content: string,
   rawMessage: any,
-  result: any
+  result: string | MessageToCreate
 }
 
 export default class PluginManager {
@@ -48,12 +48,12 @@ export default class PluginManager {
 
     const filterPlugins = this.plugins.filter((plugin: Plugin) => plugin.process(content) && plugin.isAllowed(`${guild_id}-${channel_id}`))
 
-    return Promise.all(filterPlugins.map(plugin => {
+    return Promise.all(filterPlugins.map(async plugin => {
       return {
         plugin,
         content,
         rawMessage,
-        result: plugin.entry(content, rawMessage)
+        result: await plugin.entry(content, rawMessage)
       }
     }))
   }

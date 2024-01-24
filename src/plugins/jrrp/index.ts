@@ -1,5 +1,6 @@
 import Plugin, { Rule } from '@baibai/core/Plugin'
 import { createHash } from 'node:crypto'
+import {MessageToCreate} from "qq-guild-bot";
 
 export default class Jrrp extends Plugin {
   constructor() {
@@ -8,7 +9,7 @@ export default class Jrrp extends Plugin {
     super(name, rule)
   }
 
-  entry(context: any, rawContent: any): any | Promise<any> {
+  entry(context: any, rawContent: any): string | MessageToCreate | Promise<string | MessageToCreate> {
     let str = `${rawContent.msg.author.id}${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
     let md = createHash('md5').update(str).digest('hex')
     let rp = parseInt(md.substring(0, 15), 16).toString().split('').reduce((p, c) => p + parseInt(c), 0)
@@ -33,6 +34,9 @@ export default class Jrrp extends Plugin {
         rp = 100
       }
     }
-    return `今天的运势指数是 ${rp}% ！\n${new Array(rp).fill('|').join('')}`
+    return {
+      content: `今天的运势指数是 ${rp}% ！\n${new Array(rp).fill('|').join('')}`,
+      msg_id: rawContent.msg.id
+    }
   }
 }

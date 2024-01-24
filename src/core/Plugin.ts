@@ -1,3 +1,5 @@
+import {MessageToCreate} from "qq-guild-bot";
+
 export type Rule = string | RegExp
 
 export default abstract class Plugin {
@@ -41,5 +43,5 @@ export default abstract class Plugin {
     })
   }
 
-  abstract entry(context: any, rawContent? : any) : any | Promise<any>
+  abstract entry(context: any, rawContent? : any) : string | MessageToCreate | Promise<string | MessageToCreate>
 }
