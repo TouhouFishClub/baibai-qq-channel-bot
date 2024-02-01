@@ -1,4 +1,4 @@
-import Plugin, { Rule } from '@baibai/core/Plugin'
+import Plugin, { Rule, SendMessage } from '@baibai/core/Plugin'
 
 export default class HelloWorld extends Plugin {
   constructor() {
@@ -9,7 +9,7 @@ export default class HelloWorld extends Plugin {
     // this.setWhitelist([713377277])
   }
 
-  entry(context: any): any | Promise<any> {
+  entry(context: any): SendMessage {
     return 'world'
   }
 }

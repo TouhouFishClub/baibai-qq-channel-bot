@@ -1,8 +1,10 @@
 require('module-alias/register')
+require('./server.ts')
 import fs from 'fs-extra'
 import path from 'node:path'
 import {createOpenAPI, createWebsocket, AvailableIntentsEventsEnum, MessageToCreate} from 'qq-guild-bot';
 import PluginManager, { PluginResult } from "@baibai/core/PluginManager";
+import { SendMessage } from "@baibai/core/Plugin";
 
 const config = fs.readJsonSync(path.join(__dirname, '.secret.json'))
 
@@ -24,11 +26,15 @@ const createBot = (options: any) => {
     for(let i = 0; i < res.length; i++) {
       const { plugin, content, rawMessage, result } = res[i]
       const { guild_id, channel_id } = rawMessage.msg
-      const sendMsg: MessageToCreate = typeof result === 'string' ? {
+      const sendMsg: SendMessage = typeof result === 'string' ? {
         content: result
       } : result
-      let { data } = await client.messageApi.postMessage(channel_id, sendMsg);
-      console.log(`==== send data ===\n${JSON.stringify(data, null, 2)}\n ==========`)
+      try{
+        let { data } = await client.messageApi.postMessage(channel_id, <MessageToCreate>sendMsg);
+        console.log(`==== send data ===\n${JSON.stringify(data, null, 2)}\n ==========`)
+      } catch (error) {
+        console.error(`==== send error ===\n${JSON.stringify(error, null, 2)}\n ==========`)
+      }
     }
   }
 

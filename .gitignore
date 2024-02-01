@@ -6,6 +6,7 @@ node_modules/
 test/
 mock/
 dest/
+output/
 
 .secret.js
 .secret.json

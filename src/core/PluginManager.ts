@@ -1,13 +1,14 @@
 import fs from "node:fs"
 import path from "node:path"
 import Plugin from '@baibai/core/Plugin'
-import {AvailableIntentsEventsEnum, MessageToCreate} from 'qq-guild-bot';
+import { AvailableIntentsEventsEnum } from 'qq-guild-bot';
+import { SendMessage } from "@baibai/core/Plugin";
 
 export type PluginResult = {
   plugin: Plugin,
   content: string,
   rawMessage: any,
-  result: string | MessageToCreate
+  result: string | SendMessage
 }
 
 export default class PluginManager {
@@ -29,6 +30,7 @@ export default class PluginManager {
           const Plugin = require(pluginPath).default
           const pluginInstance = new Plugin()
           this.installPlugins(pluginInstance)
+          console.log(`[PluginManager] Load plugin ${pluginInstance.name}`)
         } catch (error) {
           console.error(`Error loading plugin from ${pluginPath}:`, error)
         }

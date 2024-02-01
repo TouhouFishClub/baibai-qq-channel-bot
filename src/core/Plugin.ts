@@ -1,6 +1,10 @@
-import {MessageToCreate} from "qq-guild-bot";
+import { MessageToCreate } from "qq-guild-bot";
 
 export type Rule = string | RegExp
+interface MessageExtend extends MessageToCreate {
+  keyboard?: any
+}
+export type SendMessage = string | MessageExtend | Promise<string | MessageExtend>
 
 export default abstract class Plugin {
   public name: string
@@ -43,5 +47,5 @@ export default abstract class Plugin {
     })
   }
 
-  abstract entry(context: any, rawContent? : any) : string | MessageToCreate | Promise<string | MessageToCreate>
+  abstract entry(context: any, rawContent? : any) : SendMessage | Promise<SendMessage>
 }
