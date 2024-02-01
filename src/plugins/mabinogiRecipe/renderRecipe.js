@@ -37,6 +37,11 @@ const renderRecipeImage = async (data, output, showDesc = false) => {
 
   const boundingBox = await element.boundingBox();
 
+  const directory = path.dirname(output);
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory, { recursive: true });
+  }
+
   if (boundingBox) {
     // 截取特定区域并保存为图片
     await page.screenshot({
