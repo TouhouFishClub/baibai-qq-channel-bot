@@ -54,7 +54,7 @@ const renderRecipeImage = async (data, output, showDesc = false) => {
       }
     });
 
-    console.log(`保存${output}.png成功！`)
+    console.log(`保存${output}成功！`)
     return output
 
   } else {
