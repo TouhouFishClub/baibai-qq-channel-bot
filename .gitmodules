@@ -1,0 +1,3 @@
+[submodule "src/plugins/mabinogiRecipe/source"]
+	path = src/plugins/mabinogiRecipe/source
+	url = git@github.com:Flandre/invisible-wings.github.io.git
