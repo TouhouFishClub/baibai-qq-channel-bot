@@ -2,7 +2,7 @@ import Plugin, { Rule, SendMessage } from '@baibai/core/Plugin'
 import config from '@baibai/configs'
 import fs from "fs-extra";
 import path from "node:path";
-const { searchMabiRecipe } = require('./searchRecipe.js')
+const { searchMabiRecipe } = require('./searchRecipe')
 
 const secret = fs.readJsonSync(path.join(__dirname, '..', '..', '.secret.json'))
 
