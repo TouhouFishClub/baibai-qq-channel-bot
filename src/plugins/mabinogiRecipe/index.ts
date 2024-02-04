@@ -29,7 +29,7 @@ export default class MabinogiRecipe extends Plugin {
     }
     if(res.imageFile) {
       return {
-        image: `${secret.publicPath}/mbi/${res.image}`,
+        image: `${secret.publicPath}/mbi/${encodeURIComponent(res.image)}`,
         msg_id: rawContent.msg.id
       }
     }
