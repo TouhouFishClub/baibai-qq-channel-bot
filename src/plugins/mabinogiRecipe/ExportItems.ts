@@ -1,6 +1,5 @@
 import fs from "fs-extra";
 import path from "node:path";
-const iconv = require('iconv-lite');
 
 // 在全局作用域中访问 SkillList
 eval.call(global, fs.readFileSync(path.join(__dirname, '/source/js/Skill.js')).toString('utf-16le'));
