@@ -39,7 +39,9 @@ const searchMabiRecipe = async (content, saveDir, showDesc = false) => {
 			}
 		}
   } else {
-    return `未找到${content}`
+    return {
+      text: `未找到${content}`
+    }
   }
 }
 
