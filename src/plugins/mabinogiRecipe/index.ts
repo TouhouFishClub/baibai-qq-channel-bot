@@ -15,22 +15,23 @@ export default class MabinogiRecipe extends Plugin {
 
   async entry(context: any, rawContent: any): Promise<SendMessage> {
     const res = await searchMabiRecipe(context.substring(3).trim(), config.IMAGE_PATH, context.toLowerCase().startsWith('mbd'))
+    const output: SendMessage = {
+      msg_id: rawContent.msg.id
+    }
 
     if(res.text) {
-      return {
-        content: res.text,
-        msg_id: rawContent.msg.id
-      }
+      output.content = res.text
     }
     if(res.imageFile) {
+      output.image = `${secret.publicPath}/mbi/${encodeURIComponent(res.image)}`
+    }
+    if(output.content || output.image) {
+      return output
+    } else {
       return {
-        image: `${secret.publicPath}/mbi/${encodeURIComponent(res.image)}`,
+        content: '出现错误',
         msg_id: rawContent.msg.id
       }
-    }
-    return {
-      content: '出现错误',
-      msg_id: rawContent.msg.id
     }
   }
 }
