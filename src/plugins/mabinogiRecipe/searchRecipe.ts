@@ -21,16 +21,16 @@ const searchMabiRecipe = async (content: any, saveDir: any, showDesc = false) =>
   if(targets.length) {
 		if(targets.length == 1) {
       return {
-        imageFile: await renderRecipeImage(ItemIdToItemDetail.get(ItemNameToItemId.get(targets[0])), path.join(saveDir, 'mbi', `${targets[0]}.png`), showDesc),
-        image: `${targets[0]}.png`
+        imageFile: await renderRecipeImage(ItemIdToItemDetail.get(ItemNameToItemId.get(targets[0])), path.join(saveDir, 'mbi', `${targets[0]}${showDesc ? '_d' : ''}.png`), showDesc),
+        image: `${targets[0]}${showDesc ? '_d' : ''}.png`
       }
 		} else {
 			let em = targets.filter(name => content == name)
 			if(em.length) {
         return {
           text: `找到${targets.length}\n${targets.slice(0, 10).map(x => `mbi ${ItemNameToItemId.get(x)} | ${x}`).join('\n')}\n已为您定位到${em[0]}`,
-          imageFile: await renderRecipeImage(ItemIdToItemDetail.get(ItemNameToItemId.get(em[0])), path.join(saveDir, 'mbi', `${em[0]}.png`), showDesc),
-          image: `${em[0]}.png`
+          imageFile: await renderRecipeImage(ItemIdToItemDetail.get(ItemNameToItemId.get(em[0])), path.join(saveDir, 'mbi', `${em[0]}${showDesc ? '_d' : ''}.png`), showDesc),
+          image: `${em[0]}${showDesc ? '_d' : ''}.png`
         }
 			} else {
 				return {

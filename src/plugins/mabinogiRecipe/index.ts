@@ -9,17 +9,12 @@ const secret = fs.readJsonSync(path.join(__dirname, '..', '..', '.secret.json'))
 export default class MabinogiRecipe extends Plugin {
   constructor() {
     const name = 'MabinogiRecipe'
-    const rule: Rule[] = [/^mbi/]
+    const rule: Rule[] = [/^mbi/, /^mbd/]
     super(name, rule)
   }
 
-  // http://flandre.com.cn/baibai/image/mbi/%E6%AD%BB%E7%A5%9E%E6%8E%A0%E5%A4%BA%E8%80%85%E5%BC%93.png
-
   async entry(context: any, rawContent: any): Promise<SendMessage> {
-    console.log(context)
-    const res = await searchMabiRecipe(context.substring(3).trim(), config.IMAGE_PATH, false)
-    console.log('=== res ===')
-    console.log(res)
+    const res = await searchMabiRecipe(context.substring(3).trim(), config.IMAGE_PATH, context.toLowerCase().startsWith('mbd'))
 
     if(res.text) {
       return {
