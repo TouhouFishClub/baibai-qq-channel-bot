@@ -9,7 +9,7 @@ const secret = fs.readJsonSync(path.join(__dirname, '..', '..', '.secret.json'))
 export default class MabinogiRecipe extends Plugin {
   constructor() {
     const name = 'MabinogiRecipe'
-    const rule: Rule[] = [/^mbi/, /^mbd/]
+    const rule: Rule[] = [/^mbi/i, /^mbd/i]
     super(name, rule)
   }
 
