@@ -15,17 +15,21 @@
     "koa": "^2.15.0",
     "koa-static": "^5.0.0",
     "module-alias": "^2.2.3",
+    "node-font2base64": "^0.9.2",
+    "node-html-to-image": "^4.0.0",
     "puppeteer": "^21.9.0",
     "qq-guild-bot": "^2.9.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
-    "ws": "^8.16.0"
+    "ws": "^8.16.0",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/module-alias": "^2.0.4",
     "@types/node": "^20.11.5",
-    "@types/ws": "^8.2.0"
+    "@types/ws": "^8.2.0",
+    "@types/xml2js": "^0.4.14"
   },
   "_moduleAliases": {
     "@root": ".",
